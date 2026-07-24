@@ -3,7 +3,7 @@ import java.util.concurrent.TimeUnit;
 
 public class SkyscrapersUiImpl implements SkyscrapersUi {
 
-    private int SLEEP_MILLISECONDS = 700;
+    private static final int SLEEP_MILLISECONDS = 300;
 
     public static final int SORT_ACTION = -1;
     public static final int RESET_ACTION = -2;
@@ -13,7 +13,7 @@ public class SkyscrapersUiImpl implements SkyscrapersUi {
     private final int maxNumberValue;
     private final int countElementsInColumn;
 
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     SkyscrapersUiImpl(int maxElementCount, int maxNumberValue, int countElementsInColumn) {
         this.maxElementCount = maxElementCount;
@@ -23,7 +23,7 @@ public class SkyscrapersUiImpl implements SkyscrapersUi {
 
     @Override
     public int showIntroScreen() {
-        int count = 0;
+        int count;
         while (true) {
             try {
                 showMessageForGettingValue("How many numbers to display?: ");
@@ -80,7 +80,6 @@ public class SkyscrapersUiImpl implements SkyscrapersUi {
         System.out.print(message);
     }
 
-
     @Override
     public int showSortScreen(int[] arr) {
         showNumbers(arr);
@@ -92,66 +91,51 @@ public class SkyscrapersUiImpl implements SkyscrapersUi {
     }
 
     private void showNumbers(int[] arr) {
-        System.out.print("[ ");
-        for (int i = 0; i < arr.length; i++) {
-            if (i > 0) System.out.print(", ");
-            System.out.print(arr[i]);
+        int groupCount = (arr.length + countElementsInColumn - 1) / countElementsInColumn;
+        for (int g = 0; g < groupCount; g++) {
+            if (g > 0) {
+                System.out.print(" ");
+            }
+            System.out.print("[ ");
+            for (int i = 0; i < countElementsInColumn; i++) {
+                if (i > 0) {
+                    System.out.print(", ");
+                }
+                int idx = g * countElementsInColumn + i;
+                if (idx < arr.length) {
+                    System.out.print(arr[idx]);
+                }
+            }
+            System.out.print(" ]");
         }
-        System.out.print(" ]");
     }
-
-    private void showNumbersInOnColumn(int[] arr) {
-        System.out.print("[ ");
-        for (int i = 0; i < arr.length; i++) {
-            if (i > 0) System.out.print(", ");
-            System.out.print(arr[i]);
-        }
-        System.out.print(" ]");
-    }
-
 
     @Override
     public void showNumbersDuringSwap(int[] arr, int k, int j) {
         clearLine();
-        System.out.print("[ ");
-        for (int i = 0; i < arr.length; i++) {
-            if (i > 0)
-                System.out.print(", ");
-
-            // Подсветка (симуляция)
-            if (i == k) {
-                System.out.print("\u001B[91m\u001B[5m" + arr[i] + "\u001B[0m"); // красный
-            } else {
-                if (i == j) {
-                    System.out.print("\u001B[32m\u001B[5m" + arr[i] + "\u001B[0m"); // зелёный
-                } else {
-                    System.out.print(arr[i]);
+        int groupCount = (arr.length + countElementsInColumn - 1) / countElementsInColumn;
+        for (int g = 0; g < groupCount; g++) {
+            if (g > 0) {
+                System.out.print(" ");
+            }
+            System.out.print("[ ");
+            for (int i = 0; i < countElementsInColumn; i++) {
+                if (i > 0) {
+                    System.out.print(", ");
+                }
+                int idx = g * countElementsInColumn + i;
+                if (idx < arr.length) {
+                    if (idx == k) {
+                        System.out.print("\u001B[91m\u001B[5m" + arr[idx] + "\u001B[0m"); // красный
+                    } else if (idx == j) {
+                        System.out.print("\u001B[32m\u001B[5m" + arr[idx] + "\u001B[0m"); // зелёный
+                    } else {
+                        System.out.print(arr[idx]);
+                    }
                 }
             }
+            System.out.print(" ]");
         }
-        System.out.print(" ]");
-        sleep();
-    }
-
-    public void showNumbersDuringSwapInOneLine(int[] arr, int k, int j) {
-        clearLine();
-        System.out.print("[ ");
-        for (int i = 0; i < arr.length; i++) {
-            if (i > 0)
-                System.out.print(", ");
-
-            // Подсветка (симуляция)
-            if (i == k) {
-                System.out.print("\u001B[91m\u001B[5m" + arr[i] + "\u001B[0m"); // красный
-            } else {
-                if (i == j) {
-                    System.out.print("\u001B[32m\u001B[5m" + arr[i] + "\u001B[0m"); // зелёный
-                } else {
-                    System.out.print(arr[i]);
-                }
-            }
-        }
-        System.out.print(" ]");
         sleep();
     }
 

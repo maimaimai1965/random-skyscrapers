@@ -2,36 +2,32 @@ import java.util.Random;
 
 public class QuickSortVisualizer {
 
-    private SkyscrapersUi ui;
+    private final SkyscrapersUi ui;
 
+    private final boolean initialDescending;
     private boolean isDescending;
-    private final int minValue;
+    private final int thresholdValue;
     private final int maxValue;
 
-    public QuickSortVisualizer(SkyscrapersUi ui, int minValue, int maxValue, boolean initialDescending) {
+    public QuickSortVisualizer(SkyscrapersUi ui, int thresholdValue, int maxValue, boolean initialDescending) {
         this.ui = ui;
-        this.minValue = minValue;
+        this.thresholdValue = thresholdValue;
         this.maxValue = maxValue;
-        this.isDescending = initialDescending;
+        this.initialDescending = initialDescending;
     }
 
     // ==================== ГЕНЕРАЦИЯ ЧИСЕЛ ====================
     public int[] generateRandomNumbers(int count) {
+        isDescending = initialDescending;
         Random random = new Random();
         int[] arr = new int[count];
 
         // Гарантируем хотя бы одно число <= minValue
-        arr[0] = random.nextInt(minValue) + 1; // от 1 до minValue
+        arr[0] = random.nextInt(thresholdValue) + 1; // от 1 до minValue
 
         for (int i = 1; i < count; i++) {
             arr[i] = random.nextInt(maxValue) + 1;  // от 1 до maxValue
         }
-
-//        arr[0] = 5;
-//        arr[1] = 7;
-//        arr[2] = 4;
-//        arr[3] = 6;
-
         return arr;
     }
 
@@ -49,7 +45,6 @@ public class QuickSortVisualizer {
         isDescending = !isDescending;
 
         ui.clearSortScreen();
-//        ui.showSortScreen(arrClone);
         return arrClone;
     }
 
@@ -88,21 +83,4 @@ public class QuickSortVisualizer {
         }
     }
 
-// TODO REMOVE
-    public static void main(String[] args) throws InterruptedException {
-        QuickSortVisualizer visualizer = new QuickSortVisualizer(
-                new SkyscrapersUiImpl(RandomSkyscrapers.MAX_ELEMENT_COUNT, RandomSkyscrapers.MAX_NUMBER_VALUE, RandomSkyscrapers.COUNT_ELEMENTS_IN_COLUMN),
-                RandomSkyscrapers.MIN_NUMBER_VALUE, RandomSkyscrapers.MAX_NUMBER_VALUE, false);
-
-        // Генерируем случайных чисел
-        int[] arr = visualizer.generateRandomNumbers(4);
-
-        // Первая сортировка (по убыванию)
-        arr = visualizer.sort(arr);
-
-        // Вторая сортировка (по возрастанию)
-        visualizer.sort(arr);
-
-        // Можно добавить цикл для многократного нажатия
-    }
 }
