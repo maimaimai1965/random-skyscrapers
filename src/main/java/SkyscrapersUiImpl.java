@@ -11,12 +11,14 @@ public class SkyscrapersUiImpl implements SkyscrapersUi {
 
     private final int maxElementCount;
     private final int maxNumberValue;
+    private final int countElementsInColumn;
 
     private Scanner scanner = new Scanner(System.in);
 
-    SkyscrapersUiImpl(int maxElementCount, int maxNumberValue) {
+    SkyscrapersUiImpl(int maxElementCount, int maxNumberValue, int countElementsInColumn) {
         this.maxElementCount = maxElementCount;
         this.maxNumberValue = maxNumberValue;
+        this.countElementsInColumn = countElementsInColumn;
     }
 
     @Override
@@ -38,7 +40,6 @@ public class SkyscrapersUiImpl implements SkyscrapersUi {
         }
         return count;
     }
-
 
     private int getDataFromSortScreen(int[] arr) {
         String newLine = System.lineSeparator();

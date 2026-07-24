@@ -91,7 +91,7 @@ public class QuickSortVisualizer {
 // TODO REMOVE
     public static void main(String[] args) throws InterruptedException {
         QuickSortVisualizer visualizer = new QuickSortVisualizer(
-                new SkyscrapersUiImpl(RandomSkyscrapers.MAX_ELEMENT_COUNT, RandomSkyscrapers.MAX_NUMBER_VALUE),
+                new SkyscrapersUiImpl(RandomSkyscrapers.MAX_ELEMENT_COUNT, RandomSkyscrapers.MAX_NUMBER_VALUE, RandomSkyscrapers.COUNT_ELEMENTS_IN_COLUMN),
                 RandomSkyscrapers.MIN_NUMBER_VALUE, RandomSkyscrapers.MAX_NUMBER_VALUE, false);
 
         // Генерируем случайных чисел

@@ -11,7 +11,7 @@ public class RandomSkyscrapers {
     public static void main(String[] args) {
 
         SkyscrapersUi ui =
-                new SkyscrapersUiImpl(MAX_ELEMENT_COUNT, MAX_NUMBER_VALUE);
+                new SkyscrapersUiImpl(MAX_ELEMENT_COUNT, MAX_NUMBER_VALUE, COUNT_ELEMENTS_IN_COLUMN);
         QuickSortVisualizer visualizer =
                 new QuickSortVisualizer(ui, MIN_NUMBER_VALUE, MAX_NUMBER_VALUE, INITIAL_DESCENDING);
         run (ui, visualizer);
