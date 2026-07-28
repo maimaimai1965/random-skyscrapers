@@ -9,8 +9,10 @@ public class RandomSkyscrapers {
   public static void main(String[] args) {
 
     SkyscrapersUi ui =
-        new SkyscrapersUiImpl(
+        new SkyscrapersUiSwingImpl(
             MAX_ELEMENT_COUNT, MAX_NUMBER_VALUE, THRESHOLD_NUMBER_VALUE, COUNT_ELEMENTS_IN_COLUMN);
+//        new SkyscrapersUiConsoleImpl(
+//            MAX_ELEMENT_COUNT, MAX_NUMBER_VALUE, THRESHOLD_NUMBER_VALUE, COUNT_ELEMENTS_IN_COLUMN);
     QuickSortVisualizer visualizer =
         new QuickSortVisualizer(ui, THRESHOLD_NUMBER_VALUE, MAX_NUMBER_VALUE, INITIAL_DESCENDING);
     run(ui, visualizer);
@@ -25,12 +27,12 @@ public class RandomSkyscrapers {
       while (true) {
         int result = ui.showSortScreen(arr);
         switch (result) {
-          case SkyscrapersUiImpl.SORT_ACTION:
+          case SkyscrapersUiConsoleImpl.SORT_ACTION:
             arr = visualizer.sort(arr);
             continue;
-          case SkyscrapersUiImpl.RESET_ACTION:
+          case SkyscrapersUiConsoleImpl.RESET_ACTION:
             continue startGenerate;
-          case SkyscrapersUiImpl.QUIT_ACTION:
+          case SkyscrapersUiConsoleImpl.QUIT_ACTION:
             System.exit(0);
           default:
             if (result <= THRESHOLD_NUMBER_VALUE) {

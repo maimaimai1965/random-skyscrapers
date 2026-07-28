@@ -1,7 +1,9 @@
+import swing.IntroScreen;
+
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-public class SkyscrapersUiImpl implements SkyscrapersUi {
+public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
 
   private static final int SLEEP_MILLISECONDS = 300;
 
@@ -16,7 +18,7 @@ public class SkyscrapersUiImpl implements SkyscrapersUi {
 
   private final Scanner scanner = new Scanner(System.in);
 
-  SkyscrapersUiImpl(
+  SkyscrapersUiSwingImpl(
       int maxElementCount,
       int maxNumberValue,
       int thresholdNumberValue,
@@ -29,22 +31,8 @@ public class SkyscrapersUiImpl implements SkyscrapersUi {
 
   @Override
   public int showIntroScreen() {
-    int count;
-    while (true) {
-      try {
-        showMessageForGettingValue("How many numbers to display?: ");
-        String line = scanner.nextLine();
-        count = Integer.parseInt(line);
-        if (count > maxElementCount || count <= 0) {
-          showMessage(String.format("Number must be between 1 and %d!", maxElementCount));
-        } else {
-          break;
-        }
-      } catch (Exception e) {
-        showMessage("An invalid value was entered!");
-      }
-    }
-    return count;
+    // Use Swing window instead of console input.
+    return IntroScreen.getCount(maxElementCount);
   }
 
   private int getDataFromSortScreen(int[] arr) {
@@ -93,6 +81,7 @@ public class SkyscrapersUiImpl implements SkyscrapersUi {
     return getDataFromSortScreen(arr);
   }
 
+  @Override
   public void clearSortScreen() {
     clearLine();
   }
@@ -146,6 +135,7 @@ public class SkyscrapersUiImpl implements SkyscrapersUi {
     sleep();
   }
 
+  @Override
   public void replaceElementByNew(int[] arr, int valueOfElement, int newValueOfElement) {
     for (int i = 0; i < arr.length; i++) {
       if (arr[i] == valueOfElement) {
@@ -155,6 +145,7 @@ public class SkyscrapersUiImpl implements SkyscrapersUi {
     }
   }
 
+  @Override
   public int getSmallNumber() {
     while (true) {
       showMessageForGettingValue("Please select a value smaller or equal to 30: ");
