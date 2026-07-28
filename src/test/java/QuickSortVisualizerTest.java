@@ -59,6 +59,11 @@ class QuickSortVisualizerTest {
         @Override
         public void replaceElementByNew(int[] arr, int valueOfElement, int newValueOfElement) {
         }
+
+        @Override
+        public int getSmallNumber() {
+            return 0;
+        }
     }
 
 }

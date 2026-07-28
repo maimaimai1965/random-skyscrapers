@@ -33,8 +33,9 @@ public class QuickSortVisualizer {
 
     // ==================== ОСНОВНАЯ СОРТИРОВКА ====================
     public int[] sort(int[] arr) {
-        if (arr == null || arr.length == 0)
+        if (arr == null || arr.length == 0) {
             return new int[0];
+        }
 
         int[] arrClone = arr.clone();
         String direction = isDescending ? "ПО УБЫВАНИЮ" : "ПО ВОЗРАСТАНИЮ";

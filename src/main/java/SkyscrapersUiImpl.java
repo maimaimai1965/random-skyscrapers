@@ -11,13 +11,15 @@ public class SkyscrapersUiImpl implements SkyscrapersUi {
 
     private final int maxElementCount;
     private final int maxNumberValue;
+    private final int thresholdNumberValue;
     private final int countElementsInColumn;
 
     private final Scanner scanner = new Scanner(System.in);
 
-    SkyscrapersUiImpl(int maxElementCount, int maxNumberValue, int countElementsInColumn) {
+    SkyscrapersUiImpl(int maxElementCount, int maxNumberValue, int thresholdNumberValue, int countElementsInColumn) {
         this.maxElementCount = maxElementCount;
         this.maxNumberValue = maxNumberValue;
+        this.thresholdNumberValue = thresholdNumberValue;
         this.countElementsInColumn = countElementsInColumn;
     }
 
@@ -144,6 +146,22 @@ public class SkyscrapersUiImpl implements SkyscrapersUi {
             if (arr[i] == valueOfElement) {
                 arr[i] = newValueOfElement;
                 return;  // Меняем только первый совпавший элемент.
+            }
+        }
+    }
+
+    public int getSmallNumber() {
+        while (true) {
+            showMessageForGettingValue("Please select a value smaller or equal to 30: ");
+            String result = scanner.nextLine();
+            try {
+                int number = Integer.parseInt(result);
+                if (number > 0 && number <= thresholdNumberValue) {
+                    return number;
+                }
+                showMessage("An invalid value was entered - number must be smaller or equal to 30!");
+            } catch (NumberFormatException e) {
+                showMessage("An invalid value was entered!");
             }
         }
     }
