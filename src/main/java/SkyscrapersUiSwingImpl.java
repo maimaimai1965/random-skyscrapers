@@ -1,7 +1,7 @@
-import swing.IntroScreen;
-
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import swing.IntroScreen;
+import swing.SortScreen;
 
 public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
 
@@ -35,37 +35,6 @@ public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
     return IntroScreen.getCount(maxElementCount);
   }
 
-  private int getDataFromSortScreen(int[] arr) {
-    String newLine = System.lineSeparator();
-    while (true) {
-      showMessageForGettingValue(
-          newLine + "Enter (S)ort or (R)eset or Value from the list or (Q)uit: ");
-      newLine = "";
-      String result = scanner.nextLine();
-      if (result.equalsIgnoreCase("S")) {
-        return SORT_ACTION;
-      } else if (result.equalsIgnoreCase("R")) {
-        return RESET_ACTION;
-      } else if (result.equalsIgnoreCase("Q")) {
-        return QUIT_ACTION;
-      } else {
-        try {
-          int number = Integer.parseInt(result);
-          if (number > 0 && number <= maxNumberValue) {
-            for (int n : arr) {
-              if (n == number) {
-                return number;
-              }
-            }
-          }
-          showMessage("An invalid value was entered - number must be present in the list!");
-        } catch (NumberFormatException e) {
-          showMessage("An invalid value was entered!");
-        }
-      }
-    }
-  }
-
   @Override
   public void showMessage(String message) {
     System.out.println(message);
@@ -77,8 +46,8 @@ public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
 
   @Override
   public int showSortScreen(int[] arr) {
-    showNumbers(arr);
-    return getDataFromSortScreen(arr);
+    return SortScreen.show(
+        arr, thresholdNumberValue, countElementsInColumn, SORT_ACTION, RESET_ACTION);
   }
 
   @Override
@@ -86,52 +55,10 @@ public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
     clearLine();
   }
 
-  private void showNumbers(int[] arr) {
-    int groupCount = (arr.length + countElementsInColumn - 1) / countElementsInColumn;
-    for (int g = 0; g < groupCount; g++) {
-      if (g > 0) {
-        System.out.print(" ");
-      }
-      System.out.print("[ ");
-      for (int i = 0; i < countElementsInColumn; i++) {
-        if (i > 0) {
-          System.out.print(", ");
-        }
-        int idx = g * countElementsInColumn + i;
-        if (idx < arr.length) {
-          System.out.print(arr[idx]);
-        }
-      }
-      System.out.print(" ]");
-    }
-  }
-
   @Override
   public void showNumbersDuringSwap(int[] arr, int k, int j) {
-    clearLine();
-    int groupCount = (arr.length + countElementsInColumn - 1) / countElementsInColumn;
-    for (int g = 0; g < groupCount; g++) {
-      if (g > 0) {
-        System.out.print(" ");
-      }
-      System.out.print("[ ");
-      for (int i = 0; i < countElementsInColumn; i++) {
-        if (i > 0) {
-          System.out.print(", ");
-        }
-        int idx = g * countElementsInColumn + i;
-        if (idx < arr.length) {
-          if (idx == k) {
-            System.out.print("\u001B[91m\u001B[5m" + arr[idx] + "\u001B[0m"); // красный
-          } else if (idx == j) {
-            System.out.print("\u001B[32m\u001B[5m" + arr[idx] + "\u001B[0m"); // зелёный
-          } else {
-            System.out.print(arr[idx]);
-          }
-        }
-      }
-      System.out.print(" ]");
-    }
+    // k - красный
+    // j - зелёный
     sleep();
   }
 

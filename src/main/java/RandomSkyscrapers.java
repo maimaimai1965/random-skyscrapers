@@ -11,8 +11,9 @@ public class RandomSkyscrapers {
     SkyscrapersUi ui =
         new SkyscrapersUiSwingImpl(
             MAX_ELEMENT_COUNT, MAX_NUMBER_VALUE, THRESHOLD_NUMBER_VALUE, COUNT_ELEMENTS_IN_COLUMN);
-//        new SkyscrapersUiConsoleImpl(
-//            MAX_ELEMENT_COUNT, MAX_NUMBER_VALUE, THRESHOLD_NUMBER_VALUE, COUNT_ELEMENTS_IN_COLUMN);
+    //        new SkyscrapersUiConsoleImpl(
+    //            MAX_ELEMENT_COUNT, MAX_NUMBER_VALUE, THRESHOLD_NUMBER_VALUE,
+    // COUNT_ELEMENTS_IN_COLUMN);
     QuickSortVisualizer visualizer =
         new QuickSortVisualizer(ui, THRESHOLD_NUMBER_VALUE, MAX_NUMBER_VALUE, INITIAL_DESCENDING);
     run(ui, visualizer);
