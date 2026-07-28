@@ -1,3 +1,6 @@
+package exam;
+
+import java.util.Arrays;
 import java.util.Random;
 
 public class QuickSortVisualizer {
@@ -17,6 +20,7 @@ public class QuickSortVisualizer {
     this.thresholdValue = thresholdValue;
     this.maxValue = maxValue;
     this.initialDescending = initialDescending;
+    ui.setQuickSortVirtualizer(this);
   }
 
   // ==================== ГЕНЕРАЦИЯ ЧИСЕЛ ====================
@@ -39,16 +43,26 @@ public class QuickSortVisualizer {
       return new int[0];
     }
 
-    int[] arrClone = arr.clone();
     String direction = isDescending ? "ПО УБЫВАНИЮ" : "ПО ВОЗРАСТАНИЮ";
     ui.showMessage("=== Запуск QuickSort " + direction + " ===");
-    quickSort(arrClone, 0, arrClone.length - 1);
+    quickSort(arr, 0, arr.length - 1);
 
     // Переключаем направление
     isDescending = !isDescending;
 
     ui.clearSortScreen();
-    return arrClone;
+    return arr;
+//    int[] arrClone = arr.clone();
+////    ui.setArr();
+//    String direction = isDescending ? "ПО УБЫВАНИЮ" : "ПО ВОЗРАСТАНИЮ";
+//    ui.showMessage("=== Запуск QuickSort " + direction + " ===");
+//    quickSort(arrClone, 0, arrClone.length - 1);
+//
+//    // Переключаем направление
+//    isDescending = !isDescending;
+//
+//    ui.clearSortScreen();
+//    return arrClone;
   }
 
   private void quickSort(int[] arr, int low, int high) {
@@ -75,11 +89,15 @@ public class QuickSortVisualizer {
   }
 
   private void swap(int[] arr, int i, int j) {
+    System.out.print("swap before " + i + " (" + arr[i] + ") <->" + j  + " (" + arr[j] + ") : ");
+    System.out.println (Arrays.toString(arr));
     ui.showNumbersDuringSwap(arr, i, j);
 
     int temp = arr[i];
     arr[i] = arr[j];
     arr[j] = temp;
+    System.out.print("swap after " + i + " (" + arr[i] + ") <->" + j  + " (" + arr[j] + ") : ");
+    System.out.println (Arrays.toString(arr));
 
     if (i != j) {
       ui.showNumbersDuringSwap(arr, j, i);

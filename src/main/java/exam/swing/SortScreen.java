@@ -1,6 +1,9 @@
-package swing;
+package exam.swing;
+
+import exam.SkyscrapersUiSwingImpl;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
@@ -19,41 +22,59 @@ import javax.swing.WindowConstants;
 
 public class SortScreen {
 
+  private static SortScreen current;
+
   private final int thresholdNumberValue;
   private final int countElementsInColumn;
   private final int sortAction;
   private final int resetAction;
+  private final exam.QuickSortVisualizer quickSortVisualizer;
+  private final int[] arr;
 
-  private SortScreen(
-      int thresholdNumberValue, int countElementsInColumn, int sortAction, int resetAction) {
+  private JDialog dialog;
+  private JButton[] numberButtons;
+  private Color defaultButtonBackground;
+  private Color defaultButtonForeground;
+
+  public SortScreen(
+          exam.QuickSortVisualizer quickSortVisualizer, int[] arr, int thresholdNumberValue, int countElementsInColumn, int sortAction, int resetAction) {
+    this.quickSortVisualizer = quickSortVisualizer;
+    this.arr = arr;
     this.thresholdNumberValue = thresholdNumberValue;
     this.countElementsInColumn = countElementsInColumn;
     this.sortAction = sortAction;
     this.resetAction = resetAction;
   }
 
-  public static int show(
-      int[] arr,
-      int thresholdNumberValue,
-      int countElementsInColumn,
-      int sortAction,
-      int resetAction) {
+  public int show() {
     AtomicInteger result = new AtomicInteger(resetAction);
+
     try {
       SwingUtilities.invokeAndWait(
-          () ->
-              result.set(
-                  new SortScreen(
-                          thresholdNumberValue, countElementsInColumn, sortAction, resetAction)
-                      .showModal(arr)));
+          () -> {
+            result.set(this.showModal());
+          });
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
     return result.get();
   }
 
-  private int showModal(int[] arr) {
-    JDialog dialog = new JDialog((JFrame) null, "Sort Screen", true);
+  public void showNumbersDuringSwap(int k, int j) {
+    dialog.setVisible(true);
+    numberButtons[k].setText(String.valueOf(arr[k]));
+    numberButtons[j].setText(String.valueOf(arr[j]));
+    highlightButton(numberButtons[k], Color.RED, Color.WHITE);
+    highlightButton(numberButtons[j], Color.GREEN, Color.BLACK);
+    dialog.repaint();
+    sleep();
+    resetButtonStyle(numberButtons[k]);
+    resetButtonStyle(numberButtons[j]);
+    dialog.repaint();
+  }
+
+  private int showModal() {
+    dialog = new JDialog((JFrame) null, "Sort Screen", true);
     dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
     AtomicInteger result = new AtomicInteger(resetAction);
@@ -62,12 +83,13 @@ public class SortScreen {
           @Override
           public void windowClosing(WindowEvent e) {
             result.set(resetAction);
-            dialog.dispose();
+            close();
           }
         });
 
-    JPanel numbersPanel = createNumbersPanel(arr, dialog, result);
-    JPanel actionsPanel = createActionsPanel(dialog, result);
+    numberButtons = new JButton[arr.length];
+    JPanel numbersPanel = createNumbersPanel(arr, result);
+    JPanel actionsPanel = createActionsPanel(result);
 
     JPanel mainPanel = new JPanel(new BorderLayout(12, 0));
     mainPanel.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
@@ -82,7 +104,7 @@ public class SortScreen {
     return result.get();
   }
 
-  private JPanel createNumbersPanel(int[] arr, JDialog dialog, AtomicInteger result) {
+  private JPanel createNumbersPanel(int[] arr, AtomicInteger result) {
     int columns = (arr.length + countElementsInColumn - 1) / countElementsInColumn;
     JPanel panel = new JPanel(new GridLayout(countElementsInColumn, columns, 6, 6));
 
@@ -92,7 +114,12 @@ public class SortScreen {
         if (idx < arr.length) {
           JButton numberButton = new JButton(String.valueOf(arr[idx]));
           numberButton.setPreferredSize(new Dimension(64, 32));
-          bindNumberAction(numberButton, arr, idx, dialog, result);
+          numberButtons[idx] = numberButton;
+          if (defaultButtonBackground == null) {
+            defaultButtonBackground = numberButton.getBackground();
+            defaultButtonForeground = numberButton.getForeground();
+          }
+          bindNumberAction(numberButton, arr, idx, result);
           panel.add(numberButton);
         } else {
           JPanel empty = new JPanel();
@@ -105,14 +132,13 @@ public class SortScreen {
     return panel;
   }
 
-  private void bindNumberAction(
-      JButton numberButton, int[] arr, int idx, JDialog dialog, AtomicInteger result) {
+  private void bindNumberAction(JButton numberButton, int[] arr, int idx, AtomicInteger result) {
     numberButton.addActionListener(
         e -> {
           int value = arr[idx];
           if (value <= thresholdNumberValue) {
             result.set(value);
-            dialog.dispose();
+            close();
             return;
           }
 
@@ -122,6 +148,66 @@ public class SortScreen {
             numberButton.setText(String.valueOf(newValue));
           }
         });
+  }
+
+//  private void updateSwapHighlight(int[] arr, int k, int j) {
+//
+//    for (int i = 0; i < numberButtons.length; i++) {
+//      JButton button = numberButtons[i];
+//      if (button == null) {
+//        continue;
+//      }
+//      button.setText(String.valueOf(arr[i]));
+//      resetButtonStyle(button);
+//    }
+//
+//    if (k >= 0 && k < numberButtons.length && numberButtons[k] != null) {
+//      highlightButton(numberButtons[k], Color.RED, Color.WHITE);
+//    }
+//    if (j >= 0 && j < numberButtons.length && numberButtons[j] != null && j != k) {
+//      highlightButton(numberButtons[j], Color.GREEN, Color.BLACK);
+//    }
+//
+//    if (!dialog.isVisible()) {
+//      dialog.setVisible(true);
+//    }
+//    dialog.repaint();
+//  }
+
+  private void highlightButton(JButton button, Color background, Color foreground) {
+    button.setOpaque(true);
+    button.setBackground(background);
+    button.setForeground(foreground);
+  }
+
+  private void resetButtonStyle(JButton button) {
+    button.setOpaque(true);
+    button.setBackground(defaultButtonBackground);
+    button.setForeground(defaultButtonForeground);
+  }
+
+//  private void hideVisualization() {
+//    if (numberButtons != null) {
+//      for (JButton button : numberButtons) {
+//        if (button != null) {
+//          resetButtonStyle(button);
+//        }
+//      }
+//    }
+//    if (dialog != null) {
+//      dialog.setVisible(false);
+//    }
+//  }
+
+  private void close() {
+    if (dialog != null) {
+      dialog.dispose();
+      dialog = null;
+    }
+    numberButtons = null;
+    if (current == this) {
+      current = null;
+    }
   }
 
   private Integer requestReplacementValue(JDialog parent) {
@@ -154,7 +240,7 @@ public class SortScreen {
     }
   }
 
-  private JPanel createActionsPanel(JDialog dialog, AtomicInteger result) {
+  private JPanel createActionsPanel(AtomicInteger result) {
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
@@ -167,13 +253,14 @@ public class SortScreen {
     sortButton.addActionListener(
         e -> {
           result.set(sortAction);
-          dialog.dispose();
+//          dialog.setVisible(false);
+          quickSortVisualizer.sort(arr);
         });
 
     resetButton.addActionListener(
         e -> {
           result.set(resetAction);
-          dialog.dispose();
+          close();
         });
 
     panel.add(sortButton);
@@ -182,5 +269,17 @@ public class SortScreen {
     panel.add(Box.createVerticalGlue());
 
     return panel;
+  }
+
+  public void setVisible(boolean visible) {
+    dialog.setVisible(visible);
+  }
+
+  private void sleep() {
+    try {
+      Thread.sleep(SkyscrapersUiSwingImpl.SLEEP_MILLISECONDS);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
   }
 }

@@ -1,3 +1,5 @@
+package exam;
+
 public interface SkyscrapersUi {
 
   int showIntroScreen();
@@ -13,4 +15,6 @@ public interface SkyscrapersUi {
   void replaceElementByNew(int[] arr, int valueOfElement, int newValueOfElement);
 
   int getSmallNumber();
+
+  void setQuickSortVirtualizer(QuickSortVisualizer quickSortVisualizer);
 }

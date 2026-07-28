@@ -1,3 +1,5 @@
+package exam;
+
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -183,5 +185,9 @@ public class SkyscrapersUiConsoleImpl implements SkyscrapersUi {
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  public void setQuickSortVirtualizer(QuickSortVisualizer quickSortVisualizer){
   }
 }

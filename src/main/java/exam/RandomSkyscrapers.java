@@ -1,3 +1,5 @@
+package exam;
+
 public class RandomSkyscrapers {
 
   static final int MAX_ELEMENT_COUNT = 100;
@@ -11,7 +13,7 @@ public class RandomSkyscrapers {
     SkyscrapersUi ui =
         new SkyscrapersUiSwingImpl(
             MAX_ELEMENT_COUNT, MAX_NUMBER_VALUE, THRESHOLD_NUMBER_VALUE, COUNT_ELEMENTS_IN_COLUMN);
-    //        new SkyscrapersUiConsoleImpl(
+    //        new exam.SkyscrapersUiConsoleImpl(
     //            MAX_ELEMENT_COUNT, MAX_NUMBER_VALUE, THRESHOLD_NUMBER_VALUE,
     // COUNT_ELEMENTS_IN_COLUMN);
     QuickSortVisualizer visualizer =

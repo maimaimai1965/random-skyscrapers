@@ -1,11 +1,13 @@
+package exam;
+
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
-import swing.IntroScreen;
-import swing.SortScreen;
+
+import exam.swing.IntroScreen;
+import exam.swing.SortScreen;
 
 public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
 
-  private static final int SLEEP_MILLISECONDS = 300;
+  public static final long SLEEP_MILLISECONDS = 300;
 
   public static final int SORT_ACTION = -1;
   public static final int RESET_ACTION = -2;
@@ -15,8 +17,10 @@ public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
   private final int maxNumberValue;
   private final int thresholdNumberValue;
   private final int countElementsInColumn;
+  private QuickSortVisualizer quickSortVisualizer;
 
   private final Scanner scanner = new Scanner(System.in);
+  private SortScreen sortScreen;
 
   SkyscrapersUiSwingImpl(
       int maxElementCount,
@@ -30,8 +34,12 @@ public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
   }
 
   @Override
+  public void setQuickSortVirtualizer(QuickSortVisualizer quickSortVisualizer) {
+    this.quickSortVisualizer = quickSortVisualizer;
+  }
+
+  @Override
   public int showIntroScreen() {
-    // Use Swing window instead of console input.
     return IntroScreen.getCount(maxElementCount);
   }
 
@@ -46,30 +54,24 @@ public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
 
   @Override
   public int showSortScreen(int[] arr) {
-    return SortScreen.show(
-        arr, thresholdNumberValue, countElementsInColumn, SORT_ACTION, RESET_ACTION);
+    sortScreen =
+        new SortScreen(quickSortVisualizer, arr, thresholdNumberValue, countElementsInColumn, SORT_ACTION, RESET_ACTION);
+    int result = sortScreen.show();
+//    sortScreen.setVisible(true);
+    return result;
   }
 
   @Override
   public void clearSortScreen() {
-    clearLine();
   }
 
   @Override
   public void showNumbersDuringSwap(int[] arr, int k, int j) {
-    // k - красный
-    // j - зелёный
-    sleep();
+    sortScreen.showNumbersDuringSwap(k, j);
   }
 
   @Override
   public void replaceElementByNew(int[] arr, int valueOfElement, int newValueOfElement) {
-    for (int i = 0; i < arr.length; i++) {
-      if (arr[i] == valueOfElement) {
-        arr[i] = newValueOfElement;
-        return; // Меняем только первый совпавший элемент.
-      }
-    }
   }
 
   @Override
@@ -89,17 +91,11 @@ public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
     }
   }
 
-  private void clearLine() {
-    System.out.print("\r");
-    System.out.print(" ".repeat(100)); // Очищаем строку пробелами
-    System.out.print("\r");
-  }
-
-  private void sleep() {
-    try {
-      TimeUnit.MILLISECONDS.sleep(SLEEP_MILLISECONDS); // Задержка для удобства просмотра
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e);
-    }
-  }
+//  private void sleep() {
+//    try {
+//      TimeUnit.MILLISECONDS.sleep(SLEEP_MILLISECONDS); // Задержка для удобства просмотра
+//    } catch (InterruptedException e) {
+//      throw new RuntimeException(e);
+//    }
+//  }
 }

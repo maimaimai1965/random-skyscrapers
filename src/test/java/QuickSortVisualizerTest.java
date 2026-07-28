@@ -1,5 +1,7 @@
 import static org.junit.jupiter.api.Assertions.*;
 
+import exam.QuickSortVisualizer;
+import exam.SkyscrapersUi;
 import org.junit.jupiter.api.Test;
 
 class QuickSortVisualizerTest {

@@ -1,4 +1,4 @@
-package swing;
+package exam.swing;
 
 import java.awt.*;
 import java.util.concurrent.atomic.AtomicInteger;
