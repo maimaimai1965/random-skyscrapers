@@ -1,10 +1,10 @@
 package exam;
 
+import static exam.RandomSkyscrapers.*;
+
 import exam.swing.IntroScreen;
 import exam.swing.SortScreen;
 import java.util.Scanner;
-
-import static exam.RandomSkyscrapers.*;
 
 public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
 
@@ -71,14 +71,18 @@ public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
   @Override
   public int getSmallNumber() {
     while (true) {
-      showMessageForGettingValue("Please select a value smaller or equal to " + thresholdNumberValue + ": ");
+      showMessageForGettingValue(
+          "Please select a value smaller or equal to " + thresholdNumberValue + ": ");
       String result = scanner.nextLine();
       try {
         int number = Integer.parseInt(result);
         if (number > 0 && number <= thresholdNumberValue) {
           return number;
         }
-        showMessage("An invalid value was entered - number must be smaller or equal to " + thresholdNumberValue + "!");
+        showMessage(
+            "An invalid value was entered - number must be smaller or equal to "
+                + thresholdNumberValue
+                + "!");
       } catch (NumberFormatException e) {
         showMessage("An invalid value was entered!");
       }

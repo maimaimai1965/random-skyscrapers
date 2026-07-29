@@ -1,9 +1,9 @@
 package exam;
 
+import static exam.RandomSkyscrapers.*;
+
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-
-import static exam.RandomSkyscrapers.*;
 
 public class SkyscrapersUiConsoleImpl implements SkyscrapersUi {
 
@@ -160,14 +160,18 @@ public class SkyscrapersUiConsoleImpl implements SkyscrapersUi {
 
   public int getSmallNumber() {
     while (true) {
-      showMessageForGettingValue("Please select a value smaller or equal to " + THRESHOLD_NUMBER_VALUE + ": ");
+      showMessageForGettingValue(
+          "Please select a value smaller or equal to " + THRESHOLD_NUMBER_VALUE + ": ");
       String result = scanner.nextLine();
       try {
         int number = Integer.parseInt(result);
         if (number > 0 && number <= thresholdNumberValue) {
           return number;
         }
-        showMessage("An invalid value was entered - number must be smaller or equal to " + THRESHOLD_NUMBER_VALUE + "!");
+        showMessage(
+            "An invalid value was entered - number must be smaller or equal to "
+                + THRESHOLD_NUMBER_VALUE
+                + "!");
       } catch (NumberFormatException e) {
         showMessage("An invalid value was entered!");
       }

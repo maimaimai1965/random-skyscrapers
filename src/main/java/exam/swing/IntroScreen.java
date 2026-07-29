@@ -47,22 +47,27 @@ public class IntroScreen {
     JTextField field = new JTextField(10);
     JButton enterButton = new JButton("Enter");
 
-    JLabel errorLabel = new JLabel(" ");
-    errorLabel.setForeground(Color.RED);
-
     Runnable submit =
         () -> {
           String text = field.getText() == null ? "" : field.getText().trim();
           try {
             int count = Integer.parseInt(text);
             if (count <= 0 || count > maxElementCount) {
-              errorLabel.setText("Number must be between 1 and " + maxElementCount + "!");
+              JOptionPane.showMessageDialog(
+                  dialog,
+                  "Number must be between 1 and " + maxElementCount + "!",
+                  "Invalid value",
+                  JOptionPane.ERROR_MESSAGE);
               return;
             }
             result.set(count);
             dialog.dispose();
           } catch (NumberFormatException ex) {
-            errorLabel.setText("An invalid value was entered!");
+            JOptionPane.showMessageDialog(
+                dialog,
+                "An invalid value was entered!",
+                "Invalid value",
+                JOptionPane.ERROR_MESSAGE);
           }
         };
 
@@ -89,12 +94,6 @@ public class IntroScreen {
     gbc.insets = new Insets(4, 0, 4, 8);
     inputPanel.add(enterButton, gbc);
 
-    gbc.gridx = 0;
-    gbc.gridy = 1;
-    gbc.gridwidth = 2;
-    gbc.insets = new Insets(4, 8, 4, 8);
-    inputPanel.add(errorLabel, gbc);
-
     dialog.getContentPane().setLayout(new BorderLayout());
     dialog.getContentPane().add(inputPanel, BorderLayout.CENTER);
 
@@ -103,7 +102,7 @@ public class IntroScreen {
     dialog.setSize(dialog.getWidth() + 40, dialog.getHeight() + 20);
     dialog.setResizable(false);
     dialog.setLocationRelativeTo(null);
-    dialog.setVisible(true); // blocks until disposed
+    dialog.setVisible(true);
 
     return result.get();
   }
