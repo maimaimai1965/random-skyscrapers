@@ -10,7 +10,7 @@ public interface SkyscrapersUi {
 
   void clearSortScreen();
 
-  void showNumbersDuringSwap(int[] arr, int k, int j);
+  void showNumbersDuringSwap(int[] arr, int k, int j, boolean before);
 
   void replaceElementByNew(int[] arr, int valueOfElement, int newValueOfElement);
 

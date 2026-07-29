@@ -62,5 +62,8 @@ class QuickSortVisualizerTest {
     public int getSmallNumber() {
       return 0;
     }
+
+    @Override
+    public void setQuickSortVirtualizer(QuickSortVisualizer quickSortVisualizer) {}
   }
 }

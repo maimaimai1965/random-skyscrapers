@@ -120,7 +120,10 @@ public class SkyscrapersUiConsoleImpl implements SkyscrapersUi {
   }
 
   @Override
-  public void showNumbersDuringSwap(int[] arr, int k, int j) {
+  public void showNumbersDuringSwap(int[] arr, int k, int j, boolean before) {
+    if (!before && k == j) {
+      return;
+    }
     clearLine();
     int groupCount = (arr.length + countElementsInColumn - 1) / countElementsInColumn;
     for (int g = 0; g < groupCount; g++) {
@@ -188,6 +191,5 @@ public class SkyscrapersUiConsoleImpl implements SkyscrapersUi {
   }
 
   @Override
-  public void setQuickSortVirtualizer(QuickSortVisualizer quickSortVisualizer){
-  }
+  public void setQuickSortVirtualizer(QuickSortVisualizer quickSortVisualizer) {}
 }

@@ -1,13 +1,13 @@
 package exam.swing;
 
 import exam.SkyscrapersUiSwingImpl;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+import javax.swing.plaf.basic.BasicButtonUI;
 
 public class SortScreen {
 
@@ -37,7 +38,12 @@ public class SortScreen {
   private Color defaultButtonForeground;
 
   public SortScreen(
-          exam.QuickSortVisualizer quickSortVisualizer, int[] arr, int thresholdNumberValue, int countElementsInColumn, int sortAction, int resetAction) {
+      exam.QuickSortVisualizer quickSortVisualizer,
+      int[] arr,
+      int thresholdNumberValue,
+      int countElementsInColumn,
+      int sortAction,
+      int resetAction) {
     this.quickSortVisualizer = quickSortVisualizer;
     this.arr = arr;
     this.thresholdNumberValue = thresholdNumberValue;
@@ -58,19 +64,6 @@ public class SortScreen {
       throw new RuntimeException(e);
     }
     return result.get();
-  }
-
-  public void showNumbersDuringSwap(int k, int j) {
-    dialog.setVisible(true);
-    numberButtons[k].setText(String.valueOf(arr[k]));
-    numberButtons[j].setText(String.valueOf(arr[j]));
-    highlightButton(numberButtons[k], Color.RED, Color.WHITE);
-    highlightButton(numberButtons[j], Color.GREEN, Color.BLACK);
-    dialog.repaint();
-    sleep();
-    resetButtonStyle(numberButtons[k]);
-    resetButtonStyle(numberButtons[j]);
-    dialog.repaint();
   }
 
   private int showModal() {
@@ -113,6 +106,9 @@ public class SortScreen {
         int idx = col * countElementsInColumn + row;
         if (idx < arr.length) {
           JButton numberButton = new JButton(String.valueOf(arr[idx]));
+          numberButton.setUI(new BasicButtonUI());
+          numberButton.setOpaque(true);
+          numberButton.setContentAreaFilled(true);
           numberButton.setPreferredSize(new Dimension(64, 32));
           numberButtons[idx] = numberButton;
           if (defaultButtonBackground == null) {
@@ -150,54 +146,64 @@ public class SortScreen {
         });
   }
 
-//  private void updateSwapHighlight(int[] arr, int k, int j) {
-//
-//    for (int i = 0; i < numberButtons.length; i++) {
-//      JButton button = numberButtons[i];
-//      if (button == null) {
-//        continue;
-//      }
-//      button.setText(String.valueOf(arr[i]));
-//      resetButtonStyle(button);
-//    }
-//
-//    if (k >= 0 && k < numberButtons.length && numberButtons[k] != null) {
-//      highlightButton(numberButtons[k], Color.RED, Color.WHITE);
-//    }
-//    if (j >= 0 && j < numberButtons.length && numberButtons[j] != null && j != k) {
-//      highlightButton(numberButtons[j], Color.GREEN, Color.BLACK);
-//    }
-//
-//    if (!dialog.isVisible()) {
-//      dialog.setVisible(true);
-//    }
-//    dialog.repaint();
-//  }
+  public void showNumbersDuringSwap(int k, int j, boolean before) {
+    //    for (int i = 0; i < numberButtons.length; i++) {
+    //      JButton button = numberButtons[i];
+    //      if (button == null) {
+    //        continue;
+    //      }
+    //      button.setText(String.valueOf(arr[i]));
+    //      resetButtonStyle(button);
+    //    }
+
+    JButton buttonK = numberButtons[k];
+    if (k >= 0 && k < numberButtons.length && buttonK != null) {
+      buttonK.setText(String.valueOf(arr[k]));
+      highlightButton(numberButtons[k], Color.RED, Color.WHITE);
+    }
+    JButton buttonJ = numberButtons[j];
+    if (j >= 0 && j < numberButtons.length && buttonJ != null && j != k) {
+      buttonJ.setText(String.valueOf(arr[j]));
+      highlightButton(buttonJ, Color.GREEN, Color.BLACK);
+    }
+
+    sleep();
+    if (!before) {
+      resetButtonsStyle();
+    }
+  }
 
   private void highlightButton(JButton button, Color background, Color foreground) {
     button.setOpaque(true);
+    button.setContentAreaFilled(true);
     button.setBackground(background);
     button.setForeground(foreground);
+    paintButtonNow(button);
+  }
+
+  private void resetButtonsStyle() {
+    Arrays.stream(numberButtons).forEach(this::resetButtonStyle);
   }
 
   private void resetButtonStyle(JButton button) {
     button.setOpaque(true);
+    button.setContentAreaFilled(true);
     button.setBackground(defaultButtonBackground);
     button.setForeground(defaultButtonForeground);
+    paintButtonNow(button);
   }
 
-//  private void hideVisualization() {
-//    if (numberButtons != null) {
-//      for (JButton button : numberButtons) {
-//        if (button != null) {
-//          resetButtonStyle(button);
-//        }
-//      }
-//    }
-//    if (dialog != null) {
-//      dialog.setVisible(false);
-//    }
-//  }
+  private void paintButtonsNow() {
+    for (JButton button : numberButtons) {
+      if (button != null && button.isShowing()) {
+        button.paintImmediately(0, 0, button.getWidth(), button.getHeight());
+      }
+    }
+  }
+
+  private void paintButtonNow(JButton button) {
+    button.paintImmediately(0, 0, button.getWidth(), button.getHeight());
+  }
 
   private void close() {
     if (dialog != null) {
@@ -253,7 +259,7 @@ public class SortScreen {
     sortButton.addActionListener(
         e -> {
           result.set(sortAction);
-//          dialog.setVisible(false);
+          //          dialog.setVisible(false);
           quickSortVisualizer.sort(arr);
         });
 

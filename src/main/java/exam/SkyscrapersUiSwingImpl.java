@@ -1,9 +1,8 @@
 package exam;
 
-import java.util.Scanner;
-
 import exam.swing.IntroScreen;
 import exam.swing.SortScreen;
+import java.util.Scanner;
 
 public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
 
@@ -55,24 +54,28 @@ public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
   @Override
   public int showSortScreen(int[] arr) {
     sortScreen =
-        new SortScreen(quickSortVisualizer, arr, thresholdNumberValue, countElementsInColumn, SORT_ACTION, RESET_ACTION);
+        new SortScreen(
+            quickSortVisualizer,
+            arr,
+            thresholdNumberValue,
+            countElementsInColumn,
+            SORT_ACTION,
+            RESET_ACTION);
     int result = sortScreen.show();
-//    sortScreen.setVisible(true);
+    //    sortScreen.setVisible(true);
     return result;
   }
 
   @Override
-  public void clearSortScreen() {
+  public void clearSortScreen() {}
+
+  @Override
+  public void showNumbersDuringSwap(int[] arr, int k, int j, boolean before) {
+    sortScreen.showNumbersDuringSwap(k, j, before);
   }
 
   @Override
-  public void showNumbersDuringSwap(int[] arr, int k, int j) {
-    sortScreen.showNumbersDuringSwap(k, j);
-  }
-
-  @Override
-  public void replaceElementByNew(int[] arr, int valueOfElement, int newValueOfElement) {
-  }
+  public void replaceElementByNew(int[] arr, int valueOfElement, int newValueOfElement) {}
 
   @Override
   public int getSmallNumber() {
@@ -91,11 +94,11 @@ public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
     }
   }
 
-//  private void sleep() {
-//    try {
-//      TimeUnit.MILLISECONDS.sleep(SLEEP_MILLISECONDS); // Задержка для удобства просмотра
-//    } catch (InterruptedException e) {
-//      throw new RuntimeException(e);
-//    }
-//  }
+  //  private void sleep() {
+  //    try {
+  //      TimeUnit.MILLISECONDS.sleep(SLEEP_MILLISECONDS); // Задержка для удобства просмотра
+  //    } catch (InterruptedException e) {
+  //      throw new RuntimeException(e);
+  //    }
+  //  }
 }

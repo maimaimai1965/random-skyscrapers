@@ -52,17 +52,6 @@ public class QuickSortVisualizer {
 
     ui.clearSortScreen();
     return arr;
-//    int[] arrClone = arr.clone();
-////    ui.setArr();
-//    String direction = isDescending ? "ПО УБЫВАНИЮ" : "ПО ВОЗРАСТАНИЮ";
-//    ui.showMessage("=== Запуск QuickSort " + direction + " ===");
-//    quickSort(arrClone, 0, arrClone.length - 1);
-//
-//    // Переключаем направление
-//    isDescending = !isDescending;
-//
-//    ui.clearSortScreen();
-//    return arrClone;
   }
 
   private void quickSort(int[] arr, int low, int high) {
@@ -89,18 +78,15 @@ public class QuickSortVisualizer {
   }
 
   private void swap(int[] arr, int i, int j) {
-    System.out.print("swap before " + i + " (" + arr[i] + ") <->" + j  + " (" + arr[j] + ") : ");
-    System.out.println (Arrays.toString(arr));
-    ui.showNumbersDuringSwap(arr, i, j);
+    System.out.print("swap before " + i + " (" + arr[i] + ") <-> " + j + " (" + arr[j] + ") : ");
+    System.out.println(Arrays.toString(arr));
+    ui.showNumbersDuringSwap(arr, i, j, true);
 
     int temp = arr[i];
     arr[i] = arr[j];
     arr[j] = temp;
-    System.out.print("swap after " + i + " (" + arr[i] + ") <->" + j  + " (" + arr[j] + ") : ");
-    System.out.println (Arrays.toString(arr));
-
-    if (i != j) {
-      ui.showNumbersDuringSwap(arr, j, i);
-    }
+    System.out.print("swap after " + i + " (" + arr[i] + ") <-> " + j + " (" + arr[j] + ") : ");
+    System.out.println(Arrays.toString(arr));
+    ui.showNumbersDuringSwap(arr, j, i, false);
   }
 }
