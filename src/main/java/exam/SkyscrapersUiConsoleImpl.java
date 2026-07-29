@@ -3,13 +3,11 @@ package exam;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+import static exam.RandomSkyscrapers.*;
+
 public class SkyscrapersUiConsoleImpl implements SkyscrapersUi {
 
   private static final int SLEEP_MILLISECONDS = 300;
-
-  public static final int SORT_ACTION = -1;
-  public static final int RESET_ACTION = -2;
-  public static final int QUIT_ACTION = -3;
 
   private final int maxElementCount;
   private final int maxNumberValue;
@@ -162,14 +160,14 @@ public class SkyscrapersUiConsoleImpl implements SkyscrapersUi {
 
   public int getSmallNumber() {
     while (true) {
-      showMessageForGettingValue("Please select a value smaller or equal to 30: ");
+      showMessageForGettingValue("Please select a value smaller or equal to " + THRESHOLD_NUMBER_VALUE + ": ");
       String result = scanner.nextLine();
       try {
         int number = Integer.parseInt(result);
         if (number > 0 && number <= thresholdNumberValue) {
           return number;
         }
-        showMessage("An invalid value was entered - number must be smaller or equal to 30!");
+        showMessage("An invalid value was entered - number must be smaller or equal to " + THRESHOLD_NUMBER_VALUE + "!");
       } catch (NumberFormatException e) {
         showMessage("An invalid value was entered!");
       }

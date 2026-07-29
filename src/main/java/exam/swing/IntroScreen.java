@@ -100,9 +100,11 @@ public class IntroScreen {
 
     // Keep the UI visible and focused
     dialog.pack();
+    dialog.setSize(dialog.getWidth() + 40, dialog.getHeight() + 20);
+    dialog.setResizable(false);
     dialog.setLocationRelativeTo(null);
     dialog.setVisible(true); // blocks until disposed
 
-    return result.get(); // Should always be set by pressing "Enter"
+    return result.get();
   }
 }

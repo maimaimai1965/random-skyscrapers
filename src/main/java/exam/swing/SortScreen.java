@@ -1,6 +1,6 @@
 package exam.swing;
 
-import static exam.SkyscrapersUiSwingImpl.*;
+import static exam.RandomSkyscrapers.*;
 
 import exam.QuickSortVisualizer;
 import exam.SkyscrapersUiSwingImpl;
@@ -90,6 +90,7 @@ public class SortScreen {
     dialog.setContentPane(mainPanel);
     dialog.pack();
     dialog.setLocationRelativeTo(null);
+    dialog.setResizable(false);
     dialog.setVisible(true);
 
     return result.get();

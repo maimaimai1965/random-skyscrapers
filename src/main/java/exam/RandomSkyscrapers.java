@@ -2,6 +2,10 @@ package exam;
 
 public class RandomSkyscrapers {
 
+  public static final int SORT_ACTION = -1;
+  public static final int RESET_ACTION = -2;
+  public static final int QUIT_ACTION = -3;
+
   static final int MAX_ELEMENT_COUNT = 100;
   static final int MAX_NUMBER_VALUE = 1000;
   static final int THRESHOLD_NUMBER_VALUE = 30;
@@ -25,7 +29,7 @@ public class RandomSkyscrapers {
     startGenerate:
     while (true) {
       int countOfElements = ui.showIntroScreen();
-      if (countOfElements == SkyscrapersUiConsoleImpl.QUIT_ACTION) {
+      if (countOfElements == QUIT_ACTION) {
         System.exit(0);
       }
       int[] arr = visualizer.generateRandomNumbers(countOfElements);
@@ -33,12 +37,12 @@ public class RandomSkyscrapers {
       while (true) {
         int result = ui.showSortScreen(arr);
         switch (result) {
-          case SkyscrapersUiConsoleImpl.SORT_ACTION:
+          case SORT_ACTION:
             visualizer.sort(arr);
             continue;
-          case SkyscrapersUiConsoleImpl.RESET_ACTION:
+          case RESET_ACTION:
             continue startGenerate;
-          case SkyscrapersUiConsoleImpl.QUIT_ACTION:
+          case QUIT_ACTION:
             System.exit(0);
           default:
             if (result <= THRESHOLD_NUMBER_VALUE) {
