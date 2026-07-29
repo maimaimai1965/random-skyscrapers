@@ -39,7 +39,7 @@ public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
 
   @Override
   public int showIntroScreen() {
-    return IntroScreen.getCount(maxElementCount);
+    return IntroScreen.getCount(maxElementCount, QUIT_ACTION);
   }
 
   @Override
@@ -54,15 +54,8 @@ public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
   @Override
   public int showSortScreen(int[] arr) {
     sortScreen =
-        new SortScreen(
-            quickSortVisualizer,
-            arr,
-            thresholdNumberValue,
-            countElementsInColumn,
-            SORT_ACTION,
-            RESET_ACTION);
+        new SortScreen(quickSortVisualizer, arr, thresholdNumberValue, countElementsInColumn);
     int result = sortScreen.show();
-    //    sortScreen.setVisible(true);
     return result;
   }
 
@@ -93,12 +86,4 @@ public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
       }
     }
   }
-
-  //  private void sleep() {
-  //    try {
-  //      TimeUnit.MILLISECONDS.sleep(SLEEP_MILLISECONDS); // Задержка для удобства просмотра
-  //    } catch (InterruptedException e) {
-  //      throw new RuntimeException(e);
-  //    }
-  //  }
 }

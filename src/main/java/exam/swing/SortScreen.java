@@ -1,5 +1,8 @@
 package exam.swing;
 
+import static exam.SkyscrapersUiSwingImpl.*;
+
+import exam.QuickSortVisualizer;
 import exam.SkyscrapersUiSwingImpl;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,8 +30,7 @@ public class SortScreen {
 
   private final int thresholdNumberValue;
   private final int countElementsInColumn;
-  private final int sortAction;
-  private final int resetAction;
+
   private final exam.QuickSortVisualizer quickSortVisualizer;
   private final int[] arr;
 
@@ -38,22 +40,18 @@ public class SortScreen {
   private Color defaultButtonForeground;
 
   public SortScreen(
-      exam.QuickSortVisualizer quickSortVisualizer,
+      QuickSortVisualizer quickSortVisualizer,
       int[] arr,
       int thresholdNumberValue,
-      int countElementsInColumn,
-      int sortAction,
-      int resetAction) {
+      int countElementsInColumn) {
     this.quickSortVisualizer = quickSortVisualizer;
     this.arr = arr;
     this.thresholdNumberValue = thresholdNumberValue;
     this.countElementsInColumn = countElementsInColumn;
-    this.sortAction = sortAction;
-    this.resetAction = resetAction;
   }
 
   public int show() {
-    AtomicInteger result = new AtomicInteger(resetAction);
+    AtomicInteger result = new AtomicInteger(RESET_ACTION);
 
     try {
       SwingUtilities.invokeAndWait(
@@ -70,12 +68,12 @@ public class SortScreen {
     dialog = new JDialog((JFrame) null, "Sort Screen", true);
     dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
-    AtomicInteger result = new AtomicInteger(resetAction);
+    AtomicInteger result = new AtomicInteger(RESET_ACTION);
     dialog.addWindowListener(
         new WindowAdapter() {
           @Override
           public void windowClosing(WindowEvent e) {
-            result.set(resetAction);
+            result.set(QUIT_ACTION);
             close();
           }
         });
@@ -147,15 +145,6 @@ public class SortScreen {
   }
 
   public void showNumbersDuringSwap(int k, int j, boolean before) {
-    //    for (int i = 0; i < numberButtons.length; i++) {
-    //      JButton button = numberButtons[i];
-    //      if (button == null) {
-    //        continue;
-    //      }
-    //      button.setText(String.valueOf(arr[i]));
-    //      resetButtonStyle(button);
-    //    }
-
     JButton buttonK = numberButtons[k];
     if (k >= 0 && k < numberButtons.length && buttonK != null) {
       buttonK.setText(String.valueOf(arr[k]));
@@ -258,14 +247,14 @@ public class SortScreen {
 
     sortButton.addActionListener(
         e -> {
-          result.set(sortAction);
+          result.set(SORT_ACTION);
           //          dialog.setVisible(false);
           quickSortVisualizer.sort(arr);
         });
 
     resetButton.addActionListener(
         e -> {
-          result.set(resetAction);
+          result.set(RESET_ACTION);
           close();
         });
 

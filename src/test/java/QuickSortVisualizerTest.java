@@ -16,7 +16,7 @@ class QuickSortVisualizerTest {
     visualizer.generateRandomNumbers(1); // sets isDescending from initialDescending
 
     int[] input = {5, 1, 9, 3, 7, 2};
-    int[] sorted = visualizer.sort(input);
+    int[] sorted = visualizer.sort(input.clone());
 
     assertArrayEquals(new int[] {1, 2, 3, 5, 7, 9}, sorted);
     assertArrayEquals(new int[] {5, 1, 9, 3, 7, 2}, input); // original unchanged
@@ -29,7 +29,7 @@ class QuickSortVisualizerTest {
     visualizer.generateRandomNumbers(1); // sets isDescending from initialDescending
 
     int[] input = {5, 1, 9, 3, 7, 2};
-    int[] sorted = visualizer.sort(input);
+    int[] sorted = visualizer.sort(input.clone());
 
     assertArrayEquals(new int[] {9, 7, 5, 3, 2, 1}, sorted);
     assertArrayEquals(new int[] {5, 1, 9, 3, 7, 2}, input); // original unchanged
@@ -53,7 +53,7 @@ class QuickSortVisualizerTest {
     public void clearSortScreen() {}
 
     @Override
-    public void showNumbersDuringSwap(int[] arr, int k, int j) {}
+    public void showNumbersDuringSwap(int[] arr, int k, int j, boolean before) {}
 
     @Override
     public void replaceElementByNew(int[] arr, int valueOfElement, int newValueOfElement) {}

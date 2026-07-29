@@ -1,23 +1,22 @@
 package exam.swing;
 
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.*;
 
 public class IntroScreen {
 
   private final int maxElementCount;
+  private final int quitAction;
 
-  private IntroScreen(int maxElementCount) {
-    this.maxElementCount = maxElementCount;
-  }
-
-  public static int getCount(int maxElementCount) {
-    AtomicInteger result = new AtomicInteger(Integer.MIN_VALUE);
+  public static int getCount(int maxElementCount, int quitAction) {
+    AtomicInteger result = new AtomicInteger(quitAction);
     try {
       SwingUtilities.invokeAndWait(
           () -> {
-            result.set(new IntroScreen(maxElementCount).showModal());
+            result.set(new IntroScreen(maxElementCount, quitAction).showModal());
           });
     } catch (Exception e) {
       throw new RuntimeException(e);
@@ -25,11 +24,24 @@ public class IntroScreen {
     return result.get();
   }
 
+  private IntroScreen(int maxElementCount, int quitAction) {
+    this.maxElementCount = maxElementCount;
+    this.quitAction = quitAction;
+  }
+
   private int showModal() {
     JDialog dialog = new JDialog((Frame) null, "Random Skyscrapers", true);
     dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
-    AtomicInteger result = new AtomicInteger(Integer.MIN_VALUE);
+    AtomicInteger result = new AtomicInteger(quitAction);
+    dialog.addWindowListener(
+        new WindowAdapter() {
+          @Override
+          public void windowClosing(WindowEvent e) {
+            result.set(quitAction);
+            dialog.dispose();
+          }
+        });
 
     JLabel label = new JLabel("How many numbers to display:");
     JTextField field = new JTextField(10);

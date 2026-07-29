@@ -25,13 +25,16 @@ public class RandomSkyscrapers {
     startGenerate:
     while (true) {
       int countOfElements = ui.showIntroScreen();
+      if (countOfElements == SkyscrapersUiConsoleImpl.QUIT_ACTION) {
+        System.exit(0);
+      }
       int[] arr = visualizer.generateRandomNumbers(countOfElements);
 
       while (true) {
         int result = ui.showSortScreen(arr);
         switch (result) {
           case SkyscrapersUiConsoleImpl.SORT_ACTION:
-            arr = visualizer.sort(arr);
+            visualizer.sort(arr);
             continue;
           case SkyscrapersUiConsoleImpl.RESET_ACTION:
             continue startGenerate;
