@@ -237,6 +237,18 @@ public class SortScreen {
     sortButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
     resetButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
 
+    Dimension sortSize = sortButton.getPreferredSize();
+    Dimension resetSize = resetButton.getPreferredSize();
+    Dimension buttonSize =
+        new Dimension(
+            Math.max(sortSize.width, resetSize.width), Math.max(sortSize.height, resetSize.height));
+    sortButton.setPreferredSize(buttonSize);
+    sortButton.setMinimumSize(buttonSize);
+    sortButton.setMaximumSize(buttonSize);
+    resetButton.setPreferredSize(buttonSize);
+    resetButton.setMinimumSize(buttonSize);
+    resetButton.setMaximumSize(buttonSize);
+
     sortButton.addActionListener(
         e -> {
           result.set(SORT_ACTION);
