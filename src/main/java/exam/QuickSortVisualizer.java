@@ -77,17 +77,11 @@ public class QuickSortVisualizer {
   }
 
   private void swap(int[] arr, int i, int j) {
-    //    System.out.print("swap before " + i + " (" + arr[i] + ") <-> " + j + " (" + arr[j] + ") :
-    // ");
-    //    System.out.println(Arrays.toString(arr));
     ui.showNumbersDuringSwap(arr, i, j, true);
 
     int temp = arr[i];
     arr[i] = arr[j];
     arr[j] = temp;
-    //    System.out.print("swap after " + i + " (" + arr[i] + ") <-> " + j + " (" + arr[j] + ") :
-    // ");
-    //    System.out.println(Arrays.toString(arr));
     ui.showNumbersDuringSwap(arr, j, i, false);
   }
 }

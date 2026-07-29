@@ -3,7 +3,6 @@ package exam.swing;
 import static exam.RandomSkyscrapers.*;
 
 import exam.QuickSortVisualizer;
-import exam.SkyscrapersUiSwingImpl;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -183,14 +182,6 @@ public class SortScreen {
     paintButtonNow(button);
   }
 
-  private void paintButtonsNow() {
-    for (JButton button : numberButtons) {
-      if (button != null && button.isShowing()) {
-        button.paintImmediately(0, 0, button.getWidth(), button.getHeight());
-      }
-    }
-  }
-
   private void paintButtonNow(JButton button) {
     button.paintImmediately(0, 0, button.getWidth(), button.getHeight());
   }
@@ -249,7 +240,6 @@ public class SortScreen {
     sortButton.addActionListener(
         e -> {
           result.set(SORT_ACTION);
-          //          dialog.setVisible(false);
           quickSortVisualizer.sort(arr);
         });
 
@@ -265,10 +255,6 @@ public class SortScreen {
     panel.add(Box.createVerticalGlue());
 
     return panel;
-  }
-
-  public void setVisible(boolean visible) {
-    dialog.setVisible(visible);
   }
 
   private void sleep() {

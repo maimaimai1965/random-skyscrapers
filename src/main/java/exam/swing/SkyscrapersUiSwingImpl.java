@@ -1,9 +1,9 @@
-package exam;
+package exam.swing;
 
 import static exam.RandomSkyscrapers.*;
 
-import exam.swing.IntroScreen;
-import exam.swing.SortScreen;
+import exam.QuickSortVisualizer;
+import exam.SkyscrapersUi;
 import java.util.Scanner;
 
 public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
@@ -19,7 +19,7 @@ public class SkyscrapersUiSwingImpl implements SkyscrapersUi {
   private final Scanner scanner = new Scanner(System.in);
   private SortScreen sortScreen;
 
-  SkyscrapersUiSwingImpl(
+  public SkyscrapersUiSwingImpl(
       int maxElementCount,
       int maxNumberValue,
       int thresholdNumberValue,

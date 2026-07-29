@@ -1,7 +1,9 @@
-package exam;
+package exam.console;
 
 import static exam.RandomSkyscrapers.*;
 
+import exam.QuickSortVisualizer;
+import exam.SkyscrapersUi;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -16,7 +18,7 @@ public class SkyscrapersUiConsoleImpl implements SkyscrapersUi {
 
   private final Scanner scanner = new Scanner(System.in);
 
-  SkyscrapersUiConsoleImpl(
+  public SkyscrapersUiConsoleImpl(
       int maxElementCount,
       int maxNumberValue,
       int thresholdNumberValue,
